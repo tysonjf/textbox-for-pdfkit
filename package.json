@@ -6,10 +6,10 @@
 	"main": "./dist/pdfTextbox.cjs.js",
 	"module": "./dist/pdfTextbox.es.js",
 	"browser": "./dist/pdfTextbox.umd.js",
-	"types": "./dist/pdfTextbox.d.ts",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/pdfTextbox.d.ts",
+			"types": "./dist/index.d.ts",
 			"import": "./dist/pdfTextbox.es.js",
 			"require": "./dist/pdfTextbox.cjs.js",
 			"browser": "./dist/pdfTextbox.umd.js"

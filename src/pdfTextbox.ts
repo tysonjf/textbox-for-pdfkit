@@ -119,4 +119,4 @@ function getLineStartXPosition(line: Line, width: number, posX: number): number 
 	}
 }
 
-export default addTextbox;
+export { addTextbox };
