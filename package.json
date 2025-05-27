@@ -1,6 +1,6 @@
 {
-	"name": "textbox-for-pdfkit",
-	"version": "0.2.3",
+	"name": "textbox-for-pdfkit-ts",
+	"version": "0.1.0",
 	"description": "A package to easily create beautiful Textboxes with pdfKit",
 	"main": "dist/pdfTextbox.cjs.js",
 	"module": "dist/pdfTextbox.esm.js",
@@ -20,11 +20,11 @@
 		"textbox",
 		"pdfkit"
 	],
-	"homepage": "https://github.com/NikolaiMe/textbox-for-pdfkit",
+	"homepage": "https://github.com/tysonjf/textbox-for-pdfkit",
 	"bugs": {
-		"url": "https://github.com/NikolaiMe/textbox-for-pdfkit/issues"
+		"url": "https://github.com/tysonjf/textbox-for-pdfkit/issues"
 	},
-	"author": "Nikolai Merz",
+	"author": "Tyson Filia",
 	"license": "MIT",
 	"dependencies": {
 		"fontkit": "^1.8.1"
@@ -40,5 +40,9 @@
 		"ts-jest": "^29.1.0",
 		"typescript": "^5.0.0",
 		"vite": "^5.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tysonjf/textbox-for-pdfkit.git"
 	}
 }
