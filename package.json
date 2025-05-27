@@ -3,10 +3,18 @@
 	"version": "0.1.0",
 	"type": "module",
 	"description": "A package to easily create beautiful Textboxes with pdfKit",
-	"main": "dist/pdfTextbox.cjs.js",
-	"module": "dist/pdfTextbox.esm.js",
-	"browser": "dist/pdfTextbox.browser.js",
-	"types": "dist/pdfTextbox.d.ts",
+	"main": "./dist/pdfTextbox.cjs.js",
+	"module": "./dist/pdfTextbox.esm.js",
+	"browser": "./dist/pdfTextbox.browser.js",
+	"types": "./dist/pdfTextbox.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/pdfTextbox.d.ts",
+			"import": "./dist/pdfTextbox.esm.js",
+			"require": "./dist/pdfTextbox.cjs.js",
+			"browser": "./dist/pdfTextbox.browser.js"
+		}
+	},
 	"files": [
 		"dist"
 	],
