@@ -29,23 +29,3 @@ export interface Line {
 }
 
 export type PDFDocument = typeof PDFDocument;
-
-// export interface PDFDocument {
-// 	font: (font: string) => PDFDocument;
-// 	fontSize: (size: number) => PDFDocument;
-// 	fillColor: (color: string) => PDFDocument;
-// 	text: (
-// 		text: string,
-// 		x: number,
-// 		y: number,
-// 		options?: {
-// 			link?: string;
-// 			align?: string;
-// 			baseline?: string;
-// 			oblique?: number;
-// 			underline?: boolean;
-// 			strike?: boolean;
-// 		}
-// 	) => PDFDocument;
-// 	widthOfString: (text: string) => number;
-// }
