@@ -15,21 +15,8 @@ export default defineConfig({
 				globals: {
 					pdfkit: 'PDFKit',
 				},
-				// preserveModules: true,
 				minifyInternalExports: false,
 			},
 		},
 	},
-	// resolve: {
-	// 	alias: {
-	// 		buffer: 'buffer',
-	// 	},
-	// },
-	// define: {
-	// 	global: 'window',
-	// 	Buffer: 'Buffer',
-	// },
-	// optimizeDeps: {
-	// 	include: ['buffer'],
-	// },
 });
