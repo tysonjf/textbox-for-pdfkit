@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer';
+import fontkit from 'fontkit';
 import { PDFDocument } from './types';
 
 // Make Buffer available globally if it's not already
@@ -42,12 +43,13 @@ export function getFontAscent(font: string, fontSize: number, doc: PDFDocument):
 			break;
 		default:
 			try {
-				// const docWithCurrentFont = doc.font(safeFont);
+				const docWithCurrentFont = doc.font(safeFont) as any;
 				// // @ts-expect-error fontkit types are not correct (maybe)
-				// const fontObj = docWithCurrentFont._font.font;
-				// ascentPerPoint = fontObj.ascent / fontObj.unitsPerEm;
-				// temp workaround
-				ascentPerPoint = 683 / 1000;
+				const fontObj = docWithCurrentFont._font.font as {
+					ascent: number;
+					unitsPerEm: number;
+				};
+				ascentPerPoint = fontObj.ascent / fontObj.unitsPerEm;
 			} catch (e) {
 				console.warn(`Failed to load font ${font}, falling back to Times-Roman`);
 				ascentPerPoint = 683 / 1000;
