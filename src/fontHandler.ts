@@ -1,4 +1,10 @@
-import fontkit from 'fontkit';
+import { Buffer } from 'buffer';
+import { PDFDocument } from './types';
+
+// Make Buffer available globally if it's not already
+if (typeof global !== 'undefined') {
+	global.Buffer = Buffer;
+}
 
 // Here we just return the ascents for the used font.
 // Its needed to correctly align the font inside of a textbox.
@@ -8,9 +14,10 @@ import fontkit from 'fontkit';
 // fonts get measured by fontkit.
 // Thanks fontkit for being awesome ♥!
 
-function getFontAscent(font, fontSize) {
+export function getFontAscent(font: string, fontSize: number, doc: PDFDocument): number {
 	let ascentPerPoint = 0;
-	switch (font) {
+	const safeFont = font.trim();
+	switch (safeFont) {
 		case 'Courier':
 		case 'Courier-Bold':
 		case 'Courier-Oblique':
@@ -35,8 +42,12 @@ function getFontAscent(font, fontSize) {
 			break;
 		default:
 			try {
-				const fontObj = fontkit.openSync(font);
-				ascentPerPoint = fontObj.ascent / fontObj.unitsPerEm;
+				// const docWithCurrentFont = doc.font(safeFont);
+				// // @ts-expect-error fontkit types are not correct (maybe)
+				// const fontObj = docWithCurrentFont._font.font;
+				// ascentPerPoint = fontObj.ascent / fontObj.unitsPerEm;
+				// temp workaround
+				ascentPerPoint = 683 / 1000;
 			} catch (e) {
 				console.warn(`Failed to load font ${font}, falling back to Times-Roman`);
 				ascentPerPoint = 683 / 1000;
@@ -45,5 +56,3 @@ function getFontAscent(font, fontSize) {
 
 	return fontSize * ascentPerPoint;
 }
-
-export default getFontAscent;
