@@ -1,6 +1,6 @@
 {
 	"name": "textbox-for-pdfkit-ts",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"type": "module",
 	"description": "A package to easily create beautiful Textboxes with pdfKit",
 	"main": "./dist/pdfTextbox.cjs.js",
