@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
+import { configDefaults } from 'vitest/config';
 
 export default defineConfig({
 	build: {
@@ -17,6 +18,14 @@ export default defineConfig({
 				},
 				minifyInternalExports: false,
 			},
+		},
+	},
+	test: {
+		globals: true,
+		environment: 'node',
+		exclude: [...configDefaults.exclude, 'dist/**'],
+		coverage: {
+			reporter: ['text', 'html'],
 		},
 	},
 });

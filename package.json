@@ -19,11 +19,13 @@
 		"dist"
 	],
 	"scripts": {
-		"test": "jest",
+		"test": "vitest run",
+		"generate": "tsx example/generatePDF.ts",
 		"prepare": "pnpm build",
 		"build": "vite build && tsc",
 		"dev": "vite",
-		"type-check": "tsc --noEmit"
+		"type-check": "tsc --noEmit",
+		"vitest": "vitest --ui"
 	},
 	"keywords": [
 		"textbox",
@@ -39,11 +41,15 @@
 		"@types/jest": "^29.5.0",
 		"@types/node": "^20.0.0",
 		"@types/pdfkit": "^0.13.9",
-		"pdfkit": "^0.12.3",
+		"@vitest/ui": "^3.1.4",
+		"c8": "^10.1.3",
 		"jest": "^29.7.0",
+		"pdfkit": "^0.12.3",
 		"ts-jest": "^29.1.0",
+		"tsx": "^4.19.4",
 		"typescript": "^5.0.0",
-		"vite": "^5.0.0"
+		"vite": "^5.0.0",
+		"vitest": "^3.1.4"
 	},
 	"peerDependencies": {
 		"pdfkit": "^0.12.3"

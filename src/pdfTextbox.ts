@@ -73,6 +73,7 @@ function drawTextLinesOnPDF(
 	height: number | null
 ): void {
 	let currentHeight = 0;
+	// let yPosition = posY + lines[0].lineHeight;
 	let yPosition = posY + getFontAscent(defaultStyle.font!, defaultStyle.fontSize!, doc);
 
 	lines.forEach((line, index) => {

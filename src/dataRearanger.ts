@@ -26,23 +26,34 @@ export function normalizeTexts(
 	return normalizedTexts;
 }
 
-function normalizeLineHeight(text: TextPart, textboxStyle: TextStyle): TextPart {
-	if (text.hasOwnProperty('lineHeight')) {
-		if (text.hasOwnProperty('fontSize')) {
-			return { ...text, lineHeight: text.lineHeight! * text.fontSize! };
-		} else {
-			return { ...text, lineHeight: text.lineHeight! * textboxStyle.fontSize! };
-		}
+export function normalizeLineHeight(text: TextPart, textboxStyle: TextStyle): TextPart {
+	/* 
+      This function adds default values to every text object. This is necessary
+      that all lines can be added with correct styling later.
+      Also it checks whether linebreaks with '\n' are inside the text.
+      If there are any it handles this using normalizedLinebreak function.
+  */
+
+	// Use 1.2 as the default lineHeight if not provided
+	const defaultLineHeight = 1;
+	const fontSize = text.fontSize ?? textboxStyle.fontSize!;
+	let lineHeight: number;
+
+	if (text.hasOwnProperty('lineHeight') && text.lineHeight !== undefined) {
+		lineHeight = text.lineHeight! * fontSize;
+	} else if (textboxStyle.lineHeight !== undefined) {
+		lineHeight = textboxStyle.lineHeight! * fontSize;
 	} else {
-		// If there is no line height specified, it just gets the standard textbox Line Height
-		return {
-			...text,
-			lineHeight: textboxStyle.lineHeight! * textboxStyle.fontSize!,
-		};
+		lineHeight = defaultLineHeight * fontSize;
 	}
+
+	return {
+		...text,
+		lineHeight,
+	};
 }
 
-function normalizeLinebreaks(text: TextPart): TextPart[] {
+export function normalizeLinebreaks(text: TextPart): TextPart[] {
 	/* 
       This function checks whether linebreaks with '\n' are inside the text. 
       If there are any it creates a new object with "newline=true"

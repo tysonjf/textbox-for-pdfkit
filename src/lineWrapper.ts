@@ -22,18 +22,40 @@ export function lineWrapParagraph(
 	let line: TextPart[] = [];
 	let lines: Line[] = [];
 	paragraph.forEach((textpart) => {
-		//First check whether the complete textpart fits in line
 		if (textpart.width! <= spaceLeftInLine) {
-			//if yes: directly add it to the line
 			line.push(textpart);
 			spaceLeftInLine -= textpart.width!;
 		} else {
-			//if it doesn't fit completely: add it word by word to the line
 			const wrappedLines = wrapTextInLines(textpart, spaceLeftInLine, textWidth, doc);
-			wrappedLines.forEach((textPart) => {
-				lines.push(createLine([textPart]));
-			});
-			spaceLeftInLine = textWidth;
+
+			// If there's something in the current line, try to fit the first wrapped fragment
+			if (line.length > 0 && wrappedLines.length > 0) {
+				// Try to fit the first wrapped fragment into the current line
+				if (wrappedLines[0].width! <= spaceLeftInLine) {
+					line.push(wrappedLines[0]);
+					spaceLeftInLine -= wrappedLines[0].width!;
+					// Remove the first fragment since it's now in the current line
+					wrappedLines.shift();
+				}
+				// Push the current line
+				lines.push(createLine(line));
+				line = [];
+			}
+
+			// Add all remaining wrapped lines except the last one directly to lines
+			for (let i = 0; i < wrappedLines.length - 1; i++) {
+				lines.push(createLine([wrappedLines[i]]));
+			}
+
+			// The last wrapped fragment may be continued by the next textpart
+			if (wrappedLines.length > 0) {
+				const lastWrapped = wrappedLines[wrappedLines.length - 1];
+				line = [lastWrapped];
+				spaceLeftInLine = textWidth - lastWrapped.width!;
+			} else {
+				line = [];
+				spaceLeftInLine = textWidth;
+			}
 		}
 	});
 	// If the complete paragraph has been line wrapped: add the last line
