@@ -1,6 +1,7 @@
 {
 	"name": "textbox-for-pdfkit-ts",
 	"version": "0.1.0",
+	"type": "module",
 	"description": "A package to easily create beautiful Textboxes with pdfKit",
 	"main": "dist/pdfTextbox.cjs.js",
 	"module": "dist/pdfTextbox.esm.js",
@@ -26,11 +27,7 @@
 	},
 	"author": "Tyson Filia",
 	"license": "MIT",
-	"dependencies": {
-		"fontkit": "^1.8.1"
-	},
 	"devDependencies": {
-		"@types/fontkit": "^2.0.8",
 		"@types/jest": "^29.5.0",
 		"@types/node": "^20.0.0",
 		"@types/pdfkit": "^0.13.9",

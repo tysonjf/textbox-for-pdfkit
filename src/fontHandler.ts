@@ -1,5 +1,4 @@
 import { Buffer } from 'buffer';
-import fontkit from 'fontkit';
 import { PDFDocument } from './types';
 
 // Make Buffer available globally if it's not already
