@@ -20,15 +20,16 @@ export default defineConfig({
 			},
 		},
 	},
-	resolve: {
-		alias: {
-			buffer: 'buffer',
-		},
-	},
-	define: {
-		'global.Buffer': 'Buffer',
-	},
-	optimizeDeps: {
-		include: ['buffer'],
-	},
+	// resolve: {
+	// 	alias: {
+	// 		buffer: 'buffer',
+	// 	},
+	// },
+	// define: {
+	// 	global: 'window',
+	// 	Buffer: 'Buffer',
+	// },
+	// optimizeDeps: {
+	// 	include: ['buffer'],
+	// },
 });
