@@ -86,7 +86,7 @@ function drawTextLinesOnPDF(
 			doc
 				.font(textPart.font!)
 				.fontSize(textPart.fontSize!)
-				.fillColor(textPart.color!)
+				.fillColor(textPart.color!, textPart.opacity)
 				.text(textPart.text, xPosition, yPosition, {
 					link: textPart.link ?? undefined,
 					align: 'left',

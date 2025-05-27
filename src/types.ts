@@ -1,11 +1,12 @@
 import PDFDocument from 'pdfkit';
-
+// PDFKit.Mixins.PDFColor.fillColor(color: PDFKit.Mixins.ColorValue, opacity?: number): PDFKit.PDFDocument
 export interface TextStyle {
 	font?: string;
 	fontSize?: number;
 	lineHeight?: number;
 	align?: 'left' | 'center' | 'right';
-	color?: string;
+	color?: PDFKit.Mixins.ColorValue;
+	opacity?: number;
 	removeSubsequentSpaces?: boolean;
 	link?: string | null;
 	oblique?: number;
