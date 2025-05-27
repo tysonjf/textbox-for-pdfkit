@@ -1,10 +1,4 @@
-import { Buffer } from 'buffer';
 import { PDFDocument } from './types';
-
-// Make Buffer available globally if it's not already
-if (typeof global !== 'undefined') {
-	global.Buffer = Buffer;
-}
 
 // Here we just return the ascents for the used font.
 // Its needed to correctly align the font inside of a textbox.
