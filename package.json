@@ -10,9 +10,9 @@
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
+			"browser": "./dist/pdfTextbox.umd.js",
 			"import": "./dist/pdfTextbox.es.js",
-			"require": "./dist/pdfTextbox.cjs.js",
-			"browser": "./dist/pdfTextbox.umd.js"
+			"require": "./dist/pdfTextbox.cjs.js"
 		}
 	},
 	"files": [
