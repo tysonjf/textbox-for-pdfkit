@@ -1,15 +1,50 @@
 import { pdfToImg } from 'pdftoimg-js/browser';
 import { useState } from 'react';
-import { addTextbox, type TextPart } from 'textbox-for-pdfkit';
+import { addSingleLineTextbox, addTextbox, type TextPart } from 'textbox-for-pdfkit';
 import { generatePdfkit } from './utils/pdfkit';
 
 const testTextArray: TextPart[] = [
+	// {
+	// 	text: 'With sensational 180-degree coastline views, this tri-living residence flows to a choice of expansive alfresco decks creating an incredible setting to live and entertain. Secure custom engineered caravan parking with power post one of many key features.',
+	// 	font: 'test-font',
+	// 	fontSize: 12,
+	// 	lineHeight: 1.2,
+	// 	color: [0, 0, 0, 100],
+	// 	align: 'left',
+	// },
 	{
-		text: 'Hello World... ',
-		color: [0, 100, 0, 0],
+		text: '[bullet] Some basic text here\n',
 	},
 	{
-		text: 'Hello World.',
+		text: '[bullet] Some basic text here\n',
+		oblique: 10,
+	},
+	{
+		text: '[bullet] Some basic text here that goes way to long for the line that it is set one\n',
+	},
+	{
+		text: '[bullet] Some basic text here that goes way to long for the line that it is set one\n',
+	},
+	{
+		text: '[bullet] Some basic text here that goes way to long for the line that it is set one\n',
+	},
+];
+
+const testSingleLineTextbox: TextPart[] = [
+	{
+		text: 'This is some text. ',
+		fontSize: 12,
+		color: 'blue',
+	},
+	{
+		text: 'This is some text. ',
+		fontSize: 12,
+		color: 'red',
+	},
+	{
+		text: 'This is some text. ',
+		fontSize: 12,
+		color: 'red',
 	},
 ];
 
@@ -26,24 +61,59 @@ function App() {
 					margin: 0,
 				},
 				contentCallback: async (doc) => {
-					const fontBufferRes = await fetch(
+					const fontBuffer = await fetch(
 						'https://kindly-axolotl-103.convex.cloud/api/storage/634abc70-ac03-4162-b4c0-db1e99a045ee'
-					);
-					const fontBuffer = await fontBufferRes.arrayBuffer();
+					).then((res) => res.arrayBuffer());
+					const guardianFontBuffer = await fetch(
+						'https://fonts.cdnfonts.com/s/6406/guardianp.woff'
+					).then((res) => res.arrayBuffer());
+
 					doc.registerFont('test-font', fontBuffer);
-					doc.rect(0, 0, 500, 500).stroke();
+					doc.registerFont('Guardian-Pro', guardianFontBuffer);
+					doc.rect(10, 10, 330, 200).stroke();
+
+					testTextArray.forEach((text) => {
+						text.text = text.text.replace('[bullet]', '•  ');
+					});
 					addTextbox(
 						testTextArray,
 						doc,
-						50,
-						50,
-						500,
+						10,
+						10,
+						330,
 						{
 							font: 'test-font',
+							lineHeight: 1.2,
 						},
-						500
+						200
 					);
-					console.log('done');
+
+					addSingleLineTextbox(
+						testSingleLineTextbox,
+						doc,
+						10,
+						10 + 200,
+						330,
+						{
+							font: 'test-font',
+							lineHeight: 1.2,
+							align: 'center',
+						},
+						false,
+						(status) => {
+							if (status.message === 'text is too long, did not render') {
+								doc.rect(10, 10 + 200, 330, status.height).stroke('purple');
+								doc.text('Text is too long, did not render', 10, 10 + 200);
+							} else if (status.message === 'text is too long, rendered anyway') {
+								doc.rect(10, 10 + 200, status.width, status.height).stroke('green');
+							} else if (status.message === 'rendered') {
+								doc
+									// we have to subtract the width of the text from the x position to get the correct position when aligned right
+									.rect(status.x, 10 + 200, status.width, status.height)
+									.stroke('blue');
+							}
+						}
+					);
 				},
 			});
 			if (res.success) {
@@ -101,7 +171,7 @@ function App() {
 				<div className='w-full relative h-full flex justify-center items-center bg-black/80 p-2 overflow-y-auto'>
 					{isGenerating && (
 						<span className='absolute inset-0 bg-black/10 backdrop-blur-sm flex justify-center items-center'>
-							<span className='text-white text-sm p-2 bg-black rounded-full'>
+							<span className='text-white text-sm p-4 px-8 bg-black rounded-full'>
 								Generating...
 							</span>
 						</span>
