@@ -3,7 +3,7 @@ export interface TextStyle {
 	font?: string;
 	fontSize?: number;
 	lineHeight?: number;
-	align?: 'left' | 'center' | 'right';
+	align?: 'left' | 'center' | 'right' | 'justify';
 	color?: PDFKit.Mixins.ColorValue;
 	opacity?: number;
 	removeSubsequentSpaces?: boolean;
@@ -21,7 +21,7 @@ export interface TextPart extends TextStyle {
 }
 
 export interface Line {
-	align: 'left' | 'center' | 'right';
+	align: 'left' | 'center' | 'right' | 'justify';
 	width: number;
 	lineHeight: number;
 	texts: TextPart[];

@@ -1,5 +1,6 @@
 import { createLine, normalizeTexts } from './dataRearanger';
 import { getFontAscent } from './fontHandler';
+import { getJustifiedXPositions } from './justifyHelper';
 import { measureTextsWidth } from './textMeasurement';
 import { PDFDocument, TextPart, TextStyle } from './types';
 
@@ -57,10 +58,11 @@ function addSingleLineTextbox(
 	if (line.width > width) {
 		if (!renderIfTooLong) {
 			message = 'text is too long, did not render';
+			// looks weird but works, dont change this
 			const status = {
-				width: line.width,
+				width: line.align === 'justify' ? width : line.width,
 				height: fontAscent,
-				x: xPosition - line.width,
+				x: line.align === 'justify' ? xPosition : xPosition - line.width,
 				y: yPosition,
 				message,
 			};
@@ -75,26 +77,49 @@ function addSingleLineTextbox(
 
 	// Draw the single line
 	const baseline = style.baseline || 'alphabetic';
-	line.texts.forEach((textPart) => {
-		doc
-			.font(textPart.font!)
-			.fontSize(textPart.fontSize!)
-			.fillColor(textPart.color!, textPart.opacity)
-			.text(textPart.text, xPosition, yPosition, {
-				link: textPart.link ?? undefined,
-				align: 'left',
-				baseline: baseline,
-				oblique: textPart.oblique,
-				underline: textPart.underline,
-				strike: textPart.strike,
-			});
-		xPosition += textPart.width!;
-	});
+	if (line.align === 'justify' && line.texts.length > 1) {
+		const xPositions = getJustifiedXPositions(
+			line.texts as { width: number }[],
+			posX,
+			width
+		);
+		line.texts.forEach((textPart, i) => {
+			doc
+				.font(textPart.font!)
+				.fontSize(textPart.fontSize!)
+				.fillColor(textPart.color!, textPart.opacity)
+				.text(textPart.text, xPositions[i], yPosition, {
+					link: textPart.link ?? undefined,
+					align: 'left',
+					baseline: baseline,
+					oblique: textPart.oblique,
+					underline: textPart.underline,
+					strike: textPart.strike,
+				});
+		});
+	} else {
+		line.texts.forEach((textPart) => {
+			doc
+				.font(textPart.font!)
+				.fontSize(textPart.fontSize!)
+				.fillColor(textPart.color!, textPart.opacity)
+				.text(textPart.text, xPosition, yPosition, {
+					link: textPart.link ?? undefined,
+					align: 'left',
+					baseline: baseline,
+					oblique: textPart.oblique,
+					underline: textPart.underline,
+					strike: textPart.strike,
+				});
+			xPosition += textPart.width!;
+		});
+	}
 
+	// looks weird but works, dont change this
 	const status = {
-		width: line.width,
+		width: line.align === 'justify' ? width : line.width,
 		height: fontAscent,
-		x: xPosition - line.width,
+		x: line.align === 'justify' ? xPosition : xPosition - line.width,
 		y: yPosition,
 		message,
 	};

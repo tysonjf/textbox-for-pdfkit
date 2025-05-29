@@ -1,52 +1,8 @@
 import { pdfToImg } from 'pdftoimg-js/browser';
 import { useState } from 'react';
-import { addSingleLineTextbox, addTextbox, type TextPart } from 'textbox-for-pdfkit';
+import { addSingleLineTextbox, addTextbox } from 'textbox-for-pdfkit';
+import { alphabetJustified, basicTextboxWithBullets } from './test-data';
 import { generatePdfkit } from './utils/pdfkit';
-
-const testTextArray: TextPart[] = [
-	// {
-	// 	text: 'With sensational 180-degree coastline views, this tri-living residence flows to a choice of expansive alfresco decks creating an incredible setting to live and entertain. Secure custom engineered caravan parking with power post one of many key features.',
-	// 	font: 'test-font',
-	// 	fontSize: 12,
-	// 	lineHeight: 1.2,
-	// 	color: [0, 0, 0, 100],
-	// 	align: 'left',
-	// },
-	{
-		text: '[bullet] Some basic text here\n',
-	},
-	{
-		text: '[bullet] Some basic text here\n',
-		oblique: 10,
-	},
-	{
-		text: '[bullet] Some basic text here that goes way to long for the line that it is set one\n',
-	},
-	{
-		text: '[bullet] Some basic text here that goes way to long for the line that it is set one\n',
-	},
-	{
-		text: '[bullet] Some basic text here that goes way to long for the line that it is set one\n',
-	},
-];
-
-const testSingleLineTextbox: TextPart[] = [
-	{
-		text: 'This is some text. ',
-		fontSize: 12,
-		color: 'blue',
-	},
-	{
-		text: 'This is some text. ',
-		fontSize: 12,
-		color: 'red',
-	},
-	{
-		text: 'This is some text. ',
-		fontSize: 12,
-		color: 'red',
-	},
-];
 
 function App() {
 	const [imgs, setImgs] = useState<string[]>([]);
@@ -72,11 +28,11 @@ function App() {
 					doc.registerFont('Guardian-Pro', guardianFontBuffer);
 					doc.rect(10, 10, 330, 200).stroke();
 
-					testTextArray.forEach((text) => {
+					basicTextboxWithBullets.forEach((text) => {
 						text.text = text.text.replace('[bullet]', '•  ');
 					});
 					addTextbox(
-						testTextArray,
+						basicTextboxWithBullets,
 						doc,
 						10,
 						10,
@@ -89,15 +45,16 @@ function App() {
 					);
 
 					addSingleLineTextbox(
-						testSingleLineTextbox,
+						alphabetJustified,
 						doc,
 						10,
 						10 + 200,
 						330,
 						{
 							font: 'test-font',
+							fontSize: 12,
 							lineHeight: 1.2,
-							align: 'center',
+							align: 'justify',
 						},
 						false,
 						(status) => {
