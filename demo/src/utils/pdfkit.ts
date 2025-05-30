@@ -3,7 +3,7 @@ import { StreamBuffer } from 'textbox-for-pdfkit';
 
 interface GeneratePdfArgs {
 	options?: PDFDocumentArgs;
-	contentCallback: (doc: typeof PDFDocument) => Promise<void> | void;
+	contentCallback: (doc: PDFDocument) => Promise<void> | void;
 }
 
 type PDFDocumentArgs = PDFKit.PDFDocumentOptions;
