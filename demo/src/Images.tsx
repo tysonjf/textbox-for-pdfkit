@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { generatePdfkit } from './utils/pdfkit';
 
 const imgUrl =
-	'https://kindly-axolotl-103.convex.cloud/api/storage/fd984a6d-7484-4f74-a39c-2e87b77552d2';
+	'https://kindly-axolotl-103.convex.cloud/api/storage/54793023-c8fb-4c62-9a45-221360e6b19b';
 
 export function Images() {
 	const [imgs, setImgs] = useState<string[]>([]);
@@ -26,9 +26,12 @@ export function Images() {
 						align: 'center',
 					});
 
-					doc.image(imageBuffer, 1920 / 2 - 350 / 2, 1500, {
-						width: 350,
-						height: 350,
+					const originalImage = doc.openImage(imageBuffer);
+
+					doc.image(originalImage, 1920 / 2 - 350 / 2, 1500, {
+						width: 600,
+						height: 300,
+						objectFit: 'contain',
 					});
 					doc.fontSize(40).text('Original Image', 1920 / 2 - 350 / 2, 1500 + 350 + 40, {
 						width: 350,
@@ -74,7 +77,7 @@ export function Images() {
 						clip: { type: 'ellipse', rx: 175, ry: 125 },
 						fill: {
 							color: 'green',
-							opacity: 1,
+							opacity: 0.5,
 						},
 						stroke: {
 							color: [0, 100, 0, 50],
@@ -140,36 +143,40 @@ export function Images() {
 						width: 300,
 						height: 300,
 						clip: { type: 'rect', radius: 30 },
-						image: { objectFit: 'contain' },
+						image: { objectFit: 'contain', offsetXInPercentage: 25 },
 						stroke: { color: 'teal', width: 6 },
 					});
 					doc.text('Contain', 100, 920, { width: 300, align: 'center' });
 
-					// 7. ObjectFit: cover, offset right 30%
+					// 7. ObjectFit: cover, offset right 50%
 					placeImage(doc, imageBuffer, {
 						x: 500,
 						y: 600,
 						width: 300,
 						height: 300,
 						clip: { type: 'rect', radius: 30 },
-						image: { objectFit: 'cover', offsetFromCenterXInPercentage: 30 },
-						stroke: { color: 'magenta', width: 6 },
+						image: { objectFit: 'cover', offsetXInPercentage: 25 },
+						stroke: { color: 'magenta', width: 6, opacity: 0.5 },
 					});
-					doc.text('Cover +30% X', 500, 920, { width: 300, align: 'center' });
+					doc.text('Cover +50% X', 500, 920, { width: 300, align: 'center' });
 
-					// 8. ObjectFit: fill, scale 0.7
+					// 8. ObjectFit: fill, scale 0.7, offsetYInPercentage: 25
 					placeImage(doc, imageBuffer, {
 						x: 900,
 						y: 600,
 						width: 300,
 						height: 300,
 						clip: { type: 'rect', radius: 30 },
-						image: { objectFit: 'fill', scale: 0.7 },
+						image: { objectFit: 'fill', scale: 0.7, offsetYInPercentage: 25 },
 						stroke: { color: 'orange', width: 6 },
+						fill: { color: 'orange', opacity: 0.5 },
 					});
-					doc.text('Fill, scale 0.7', 900, 920, { width: 300, align: 'center' });
+					doc.text('Fill, scale 0.7, offsetYInPercentage: 25', 900, 920, {
+						width: 300,
+						align: 'center',
+					});
 
-					// 9. ObjectFit: none (native size, offset -40% X, 40% Y)
+					// 9. ObjectFit: none (native size, offset -50% X, 50% Y)
 					placeImage(doc, imageBuffer, {
 						x: 1350,
 						y: 600,
@@ -178,12 +185,12 @@ export function Images() {
 						clip: { type: 'rect', radius: 30 },
 						image: {
 							objectFit: 'none',
-							offsetFromCenterXInPercentage: -40,
-							offsetFromMiddleYInPercentage: 40,
+							offsetXInPercentage: -50,
+							offsetYInPercentage: 50,
 						},
-						stroke: { color: 'brown', width: 6 },
+						stroke: { color: 'green', width: 6 },
 					});
-					doc.text('None, -40% X, 40% Y', 1350, 920, { width: 300, align: 'center' });
+					doc.text('None, -50% X, 50% Y', 1350, 920, { width: 300, align: 'center' });
 				},
 			});
 			if (res.success) {
@@ -271,14 +278,17 @@ interface PlaceImageOptions {
 	image?: {
 		opacity?: number;
 		objectFit?: 'contain' | 'cover' | 'fill' | 'none';
-		offsetFromCenterXInPercentage?: number;
-		offsetFromMiddleYInPercentage?: number;
+		offsetXInPercentage?: number;
+		offsetYInPercentage?: number;
 		scale?: number;
 	};
 }
 
-function placeImage(doc: PDFDocument, image: ArrayBuffer, options: PlaceImageOptions) {
-	const openImage = doc.openImage(image);
+function placeImage(
+	doc: PDFDocument,
+	imageBuffer: ArrayBuffer,
+	options: PlaceImageOptions
+) {
 	const {
 		x,
 		y,
@@ -289,8 +299,9 @@ function placeImage(doc: PDFDocument, image: ArrayBuffer, options: PlaceImageOpt
 		fill,
 		image: imageOpts,
 	} = options;
-	const imageWidth = openImage.width;
-	const imageHeight = openImage.height;
+	const image = doc.openImage(imageBuffer);
+	const imageWidth = image.width;
+	const imageHeight = image.height;
 
 	// Calculate objectFit placement
 	let fit = { width, height, x: 0, y: 0 };
@@ -300,8 +311,8 @@ function placeImage(doc: PDFDocument, image: ArrayBuffer, options: PlaceImageOpt
 			height,
 			imageWidth,
 			imageHeight,
-			imageOpts.offsetFromCenterXInPercentage ?? 0,
-			imageOpts.offsetFromMiddleYInPercentage ?? 0,
+			imageOpts.offsetXInPercentage ?? 0,
+			imageOpts.offsetYInPercentage ?? 0,
 			imageOpts.scale ?? 1,
 			imageOpts.objectFit ?? 'cover'
 		);
@@ -354,7 +365,7 @@ function placeImage(doc: PDFDocument, image: ArrayBuffer, options: PlaceImageOpt
 
 	// 2. Draw the image (clipped)
 	if (imageOpts && typeof imageOpts.opacity === 'number') doc.opacity(imageOpts.opacity);
-	doc.image(openImage, x + fit.x, y + fit.y, {
+	doc.image(image, x + fit.x, y + fit.y, {
 		width: fit.width,
 		height: fit.height,
 	});
@@ -404,8 +415,8 @@ function imageObjectFit(
 	containerHeight: number,
 	imageWidth: number,
 	imageHeight: number,
-	offsetFromCenterXInPercentage: number = 0,
-	offsetFromMiddleYInPercentage: number = 0,
+	offsetXInPercentage: number = 0,
+	offsetYInPercentage: number = 0,
 	scale: number = 1,
 	objectFit: 'contain' | 'cover' | 'fill' | 'none' = 'cover'
 ) {
@@ -419,44 +430,32 @@ function imageObjectFit(
 			Math.min(containerWidth / imageWidth, containerHeight / imageHeight) * scale;
 		drawWidth = imageWidth * ratio;
 		drawHeight = imageHeight * ratio;
-		// Offset within empty space
-		dx =
-			(containerWidth - drawWidth) / 2 +
-			((offsetFromCenterXInPercentage / 100) * (containerWidth - drawWidth)) / 2;
-		dy =
-			(containerHeight - drawHeight) / 2 +
-			((offsetFromMiddleYInPercentage / 100) * (containerHeight - drawHeight)) / 2;
+		dx = (containerWidth - drawWidth) / 2;
+		dy = (containerHeight - drawHeight) / 2;
 	} else if (objectFit === 'cover') {
 		const ratio =
 			Math.max(containerWidth / imageWidth, containerHeight / imageHeight) * scale;
 		drawWidth = imageWidth * ratio;
 		drawHeight = imageHeight * ratio;
-		// Offset within overflow (image is larger than container)
-		dx =
-			(containerWidth - drawWidth) / 2 -
-			((offsetFromCenterXInPercentage / 100) * (drawWidth - containerWidth)) / 2;
-		dy =
-			(containerHeight - drawHeight) / 2 -
-			((offsetFromMiddleYInPercentage / 100) * (drawHeight - containerHeight)) / 2;
+		const overflowX = drawWidth - containerWidth;
+		const overflowY = drawHeight - containerHeight;
+		dx = -overflowX / 2;
+		dy = -overflowY / 2;
 	} else if (objectFit === 'fill') {
 		drawWidth = containerWidth * scale;
 		drawHeight = containerHeight * scale;
-		dx =
-			(containerWidth - drawWidth) / 2 +
-			((offsetFromCenterXInPercentage / 100) * (containerWidth - drawWidth)) / 2;
-		dy =
-			(containerHeight - drawHeight) / 2 +
-			((offsetFromMiddleYInPercentage / 100) * (containerHeight - drawHeight)) / 2;
+		dx = (containerWidth - drawWidth) / 2;
+		dy = (containerHeight - drawHeight) / 2;
 	} else if (objectFit === 'none') {
 		drawWidth = imageWidth * scale;
 		drawHeight = imageHeight * scale;
-		dx =
-			(containerWidth - drawWidth) / 2 +
-			((offsetFromCenterXInPercentage / 100) * (containerWidth - drawWidth)) / 2;
-		dy =
-			(containerHeight - drawHeight) / 2 +
-			((offsetFromMiddleYInPercentage / 100) * (containerHeight - drawHeight)) / 2;
+		dx = (containerWidth - drawWidth) / 2;
+		dy = (containerHeight - drawHeight) / 2;
 	}
+
+	// CSS-like transform: always move by percentage of drawn image size
+	dx += (offsetXInPercentage / 100) * drawWidth;
+	dy += (offsetYInPercentage / 100) * drawHeight;
 
 	return {
 		width: drawWidth,
