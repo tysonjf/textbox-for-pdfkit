@@ -93,9 +93,41 @@ function addSingleLineTextbox(
 					align: 'left',
 					baseline: baseline,
 					oblique: textPart.oblique,
-					underline: textPart.underline,
-					strike: textPart.strike,
 				});
+
+			// Custom underline
+			if (textPart.underline) {
+				const fontSize = textPart.fontSize!;
+				const underlineY = yPosition + fontSize * 0.1;
+				const trimmedText = textPart.text.replace(/\s+$/, '');
+				doc.font(textPart.font!).fontSize(fontSize);
+				const underlineWidth = doc.widthOfString(trimmedText);
+				doc.save();
+				if (textPart.color) doc.strokeColor(textPart.color as any);
+				doc
+					.moveTo(xPositions[i], underlineY)
+					.lineTo(xPositions[i] + underlineWidth, underlineY)
+					.lineWidth(fontSize * 0.06)
+					.stroke();
+				doc.restore();
+			}
+
+			// Custom strike
+			if (textPart.strike) {
+				const fontSize = textPart.fontSize!;
+				const strikeY = yPosition - fontSize * 0.3;
+				const trimmedText = textPart.text.replace(/\s+$/, '');
+				doc.font(textPart.font!).fontSize(fontSize);
+				const strikeWidth = doc.widthOfString(trimmedText);
+				doc.save();
+				if (textPart.color) doc.strokeColor(textPart.color as any);
+				doc
+					.moveTo(xPositions[i], strikeY)
+					.lineTo(xPositions[i] + strikeWidth, strikeY)
+					.lineWidth(fontSize * 0.06)
+					.stroke();
+				doc.restore();
+			}
 		});
 	} else {
 		line.texts.forEach((textPart) => {
@@ -108,9 +140,42 @@ function addSingleLineTextbox(
 					align: 'left',
 					baseline: baseline,
 					oblique: textPart.oblique,
-					underline: textPart.underline,
-					strike: textPart.strike,
 				});
+
+			// Custom underline
+			if (textPart.underline) {
+				const fontSize = textPart.fontSize!;
+				const underlineY = yPosition + fontSize * 0.1;
+				const trimmedText = textPart.text.replace(/\s+$/, '');
+				doc.font(textPart.font!).fontSize(fontSize);
+				const underlineWidth = doc.widthOfString(trimmedText);
+				doc.save();
+				if (textPart.color) doc.strokeColor(textPart.color as any);
+				doc
+					.moveTo(xPosition, underlineY)
+					.lineTo(xPosition + underlineWidth, underlineY)
+					.lineWidth(fontSize * 0.06)
+					.stroke();
+				doc.restore();
+			}
+
+			// Custom strike
+			if (textPart.strike) {
+				const fontSize = textPart.fontSize!;
+				const strikeY = yPosition - fontSize * 0.3;
+				const trimmedText = textPart.text.replace(/\s+$/, '');
+				doc.font(textPart.font!).fontSize(fontSize);
+				const strikeWidth = doc.widthOfString(trimmedText);
+				doc.save();
+				if (textPart.color) doc.strokeColor(textPart.color as any);
+				doc
+					.moveTo(xPosition, strikeY)
+					.lineTo(xPosition + strikeWidth, strikeY)
+					.lineWidth(fontSize * 0.06)
+					.stroke();
+				doc.restore();
+			}
+
 			xPosition += textPart.width!;
 		});
 	}

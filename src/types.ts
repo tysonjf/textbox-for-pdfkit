@@ -28,4 +28,30 @@ export interface Line {
 	texts: TextPart[];
 }
 
+export interface OpenedImage {
+	label: string;
+	height: number;
+	width: number;
+	image: {
+		bits: number;
+		colorSpace: string;
+		colorType: number;
+		colors: number;
+		compressionMethod: number;
+		data: Uint8Array;
+		filterMethod: number;
+		height: number;
+		width: number;
+		imgData: Uint8Array;
+		interlaceMethod: number;
+		palette: [];
+		pixelBitLength: number;
+		pos: number;
+		text: object;
+		transparency: object;
+	};
+	imageData: Uint8Array;
+	obj: null;
+}
+
 export type PDFDocument = typeof PDFDocument;

@@ -1,3 +1,4 @@
+export { placeImage } from './imagebox/placeImage';
 export { addTextbox } from './pdfTextbox';
 export { addSingleLineTextbox } from './singleLineTextbox/singleLineTextbox';
 export { StreamBuffer } from './streamBuffer';

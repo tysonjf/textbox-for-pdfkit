@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export type StorageKey = 'tab';
-export type StorageValue = 'textbox' | 'oneline' | 'images';
+export type StorageValue = 'textbox' | 'oneline' | 'images' | 'webworker' | 'pdfworker';
 
 export function useLocalStorage<T extends StorageValue>(
 	key: StorageKey,
