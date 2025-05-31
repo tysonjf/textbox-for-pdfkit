@@ -6,8 +6,8 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),
-			name: 'pdfTextbox',
-			fileName: (format) => `pdfTextbox.${format}.js`,
+			name: 'pdfKitUtils',
+			fileName: (format) => `pdfKitUtils.${format}.js`,
 			formats: ['es', 'cjs', 'umd'],
 		},
 		rollupOptions: {

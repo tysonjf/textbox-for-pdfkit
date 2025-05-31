@@ -1,7 +1,7 @@
 // import PDFDocument from 'pdfkit/js/pdfkit.standalone';
 import { pdfToImg } from 'pdftoimg-js/browser';
 import { useState } from 'react';
-import { placeImage } from 'textbox-for-pdfkit';
+import { imageBox } from 'textbox-for-pdfkit';
 import { generatePdfkit } from './utils/pdfkit';
 
 const imgUrl =
@@ -40,7 +40,7 @@ export function Images() {
 					});
 
 					// 1. Simple circle clip, red stroke
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 100,
 						y: 150,
 						width: 300,
@@ -53,7 +53,7 @@ export function Images() {
 					});
 
 					// 2. Rectangle with rounded corners, blue dashed stroke
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 500,
 						y: 150,
 						width: 300,
@@ -70,7 +70,7 @@ export function Images() {
 					});
 
 					// 3. Ellipse, green fill, thick stroke cmyk color
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 900,
 						y: 150,
 						width: 350,
@@ -90,7 +90,7 @@ export function Images() {
 					});
 
 					// 4. Polygon (triangle), purple fill, orange dashed stroke
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 1350,
 						y: 150,
 						width: 300,
@@ -117,7 +117,7 @@ export function Images() {
 					});
 
 					// 5. Rectangle, semi-transparent black fill, no stroke
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 1750,
 						y: 150,
 						width: 120,
@@ -138,7 +138,7 @@ export function Images() {
 					doc.text('Rect Fill', 1750, 470, { width: 120, align: 'center' });
 
 					// 6. ObjectFit: contain, centered
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 100,
 						y: 600,
 						width: 300,
@@ -150,7 +150,7 @@ export function Images() {
 					doc.text('Contain', 100, 920, { width: 300, align: 'center' });
 
 					// 7. ObjectFit: cover, offset right 50%
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 500,
 						y: 600,
 						width: 300,
@@ -162,7 +162,7 @@ export function Images() {
 					doc.text('Cover +50% X', 500, 920, { width: 300, align: 'center' });
 
 					// 8. ObjectFit: fill, scale 0.7, offsetYInPercentage: 25
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 900,
 						y: 600,
 						width: 300,
@@ -178,7 +178,7 @@ export function Images() {
 					});
 
 					// 9. ObjectFit: none (native size, offset -50% X, 50% Y)
-					placeImage(doc, imageBuffer, {
+					imageBox(doc, imageBuffer, {
 						x: 1350,
 						y: 600,
 						width: 300,

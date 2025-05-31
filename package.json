@@ -1,18 +1,18 @@
 {
-	"name": "textbox-for-pdfkit-ts",
-	"version": "0.1.9",
+	"name": "pdfkit-utils",
+	"version": "0.0.1",
 	"type": "module",
 	"description": "A package to easily create beautiful Textboxes with pdfKit",
-	"main": "./dist/pdfTextbox.cjs.js",
-	"module": "./dist/pdfTextbox.es.js",
-	"browser": "./dist/pdfTextbox.umd.js",
+	"main": "./dist/pdfKitUtils.cjs.js",
+	"module": "./dist/pdfKitUtils.es.js",
+	"browser": "./dist/pdfKitUtils.umd.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"browser": "./dist/pdfTextbox.umd.js",
-			"import": "./dist/pdfTextbox.es.js",
-			"require": "./dist/pdfTextbox.cjs.js"
+			"browser": "./dist/pdfKitUtils.umd.js",
+			"import": "./dist/pdfKitUtils.es.js",
+			"require": "./dist/pdfKitUtils.cjs.js"
 		}
 	},
 	"files": [
