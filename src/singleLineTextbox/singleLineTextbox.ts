@@ -42,8 +42,11 @@ function addSingleLineTextbox(
 	// Join into a single line
 	const line = createLine(textsWithWidth);
 
-	const fontAscent = getFontAscent(textboxStyle.font!, textboxStyle.fontSize!, doc);
-	let yPosition = posY + fontAscent;
+	// Calculate the maximum ascent among all text parts for correct vertical alignment
+	const maxFontAscent = Math.max(
+		...line.texts.map((tp) => getFontAscent(tp.font!, tp.fontSize!, doc))
+	);
+	let yPosition = posY + maxFontAscent;
 	let xPosition = posX;
 	let message:
 		| 'text is too long, did not render'

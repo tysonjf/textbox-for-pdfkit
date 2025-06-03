@@ -71,7 +71,7 @@ export function Oneline() {
 					}
 
 					// Draw a border for visual clarity
-					doc.rect(0, 0, 600, 520).stroke('#888');
+					doc.rect(0, 30, 600, 520).stroke('#888');
 
 					doc.fontSize(20).text('Hello World', 0, 0, {
 						width: 360,
@@ -83,13 +83,12 @@ export function Oneline() {
 						parts,
 						doc,
 						0, // x
-						0, // y
+						30, // y
 						600, // width
 						520, // height
 						{
 							align: alignment,
 							font: useCustomFont ? 'Guardian-Pro' : 'Helvetica',
-							fontSize: 20,
 						},
 						false,
 						(status) => setStatusMsg(status.message)
