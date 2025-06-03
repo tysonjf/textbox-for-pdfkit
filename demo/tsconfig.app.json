@@ -23,7 +23,7 @@
 		"noUncheckedSideEffectImports": true,
 		"baseUrl": ".",
 		"paths": {
-			"textbox-for-pdfkit": ["../src"]
+			"pdfkit-utils": ["../src"]
 		}
 	},
 	"include": ["src"]

@@ -1,6 +1,6 @@
+import { singleLineTextBox } from 'pdfkit-utils';
 import { pdfToImg } from 'pdftoimg-js/browser';
 import { useState } from 'react';
-import { addSingleLineTextbox } from 'textbox-for-pdfkit';
 import { generatePdfkit } from './utils/pdfkit';
 
 const DEFAULT_PART = {
@@ -58,7 +58,7 @@ export function Oneline() {
 		try {
 			const res = await generatePdfkit({
 				options: {
-					size: [400, 120],
+					size: [600, 520],
 					margin: 0,
 				},
 				contentCallback: async (doc) => {
@@ -71,14 +71,21 @@ export function Oneline() {
 					}
 
 					// Draw a border for visual clarity
-					doc.rect(20, 40, 360, 40).stroke('#888');
+					doc.rect(0, 0, 600, 520).stroke('#888');
 
-					addSingleLineTextbox(
+					doc.fontSize(20).text('Hello World', 0, 0, {
+						width: 360,
+						height: 120,
+						align: 'left',
+					});
+
+					singleLineTextBox(
 						parts,
 						doc,
-						30, // x
-						50, // y
-						340, // width
+						0, // x
+						0, // y
+						600, // width
+						520, // height
 						{
 							align: alignment,
 							font: useCustomFont ? 'Guardian-Pro' : 'Helvetica',
@@ -101,6 +108,7 @@ export function Oneline() {
 				}
 			}
 		} catch (e) {
+			console.error(e);
 			setStatusMsg('Error generating PDF');
 		} finally {
 			setIsGenerating(false);
@@ -216,7 +224,7 @@ export function Oneline() {
 				{statusMsg && <div className='text-sm text-gray-700'>Status: {statusMsg}</div>}
 				<div className='w-full flex justify-center items-center min-h-[120px] bg-gray-50 border rounded'>
 					{img ? (
-						<img src={img} alt='PDF preview' style={{ maxWidth: 380, maxHeight: 100 }} />
+						<img src={img} alt='PDF preview' style={{ maxWidth: 600, maxHeight: 520 }} />
 					) : (
 						<span className='text-gray-400'>No PDF generated yet.</span>
 					)}

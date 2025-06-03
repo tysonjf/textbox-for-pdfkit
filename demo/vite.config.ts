@@ -8,7 +8,7 @@ export default defineConfig({
 	plugins: [tailwindcss(), react()],
 	resolve: {
 		alias: {
-			'textbox-for-pdfkit': path.resolve(__dirname, '../src'),
+			'pdfkit-utils': path.resolve(__dirname, '../src'),
 		},
 	},
 });

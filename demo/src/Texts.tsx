@@ -1,6 +1,6 @@
+import { textBox } from 'pdfkit-utils';
 import { pdfToImg } from 'pdftoimg-js/browser';
 import { useRef, useState } from 'react';
-import { addTextbox } from 'textbox-for-pdfkit';
 import { generatePdfkit } from './utils/pdfkit';
 
 type TextPart = {
@@ -257,7 +257,7 @@ export function Texts() {
 					textboxData.forEach((text) => {
 						text.text = text.text.replace(/\[bullet\]/g, '•  ');
 					});
-					addTextbox(
+					textBox(
 						textboxData,
 						doc,
 						10,

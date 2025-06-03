@@ -1,7 +1,7 @@
 // import PDFDocument from 'pdfkit/js/pdfkit.standalone';
+import { imageBox } from 'pdfkit-utils';
 import { pdfToImg } from 'pdftoimg-js/browser';
 import { useState } from 'react';
-import { imageBox } from 'textbox-for-pdfkit';
 import { generatePdfkit } from './utils/pdfkit';
 
 const imgUrl =

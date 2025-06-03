@@ -20,6 +20,7 @@ function addSingleLineTextbox(
 	posX: number,
 	posY: number,
 	width: number,
+	height: number,
 	style: TextStyle = {},
 	renderIfTooLong: boolean = true,
 	callback?: (status: {
@@ -55,13 +56,14 @@ function addSingleLineTextbox(
 		xPosition = posX + (width - line.width);
 	}
 
-	if (line.width > width) {
+	const EPSILON = 0.1;
+
+	if (line.width > width - EPSILON) {
 		if (!renderIfTooLong) {
 			message = 'text is too long, did not render';
-			// looks weird but works, dont change this
 			const status = {
 				width: line.align === 'justify' ? width : line.width,
-				height: fontAscent,
+				height: height,
 				x: line.align === 'justify' ? xPosition : xPosition - line.width,
 				y: yPosition,
 				message,
@@ -93,6 +95,7 @@ function addSingleLineTextbox(
 					align: 'left',
 					baseline: baseline,
 					oblique: textPart.oblique,
+					lineBreak: false,
 				});
 
 			// Custom underline
@@ -140,6 +143,7 @@ function addSingleLineTextbox(
 					align: 'left',
 					baseline: baseline,
 					oblique: textPart.oblique,
+					lineBreak: false,
 				});
 
 			// Custom underline
@@ -183,7 +187,7 @@ function addSingleLineTextbox(
 	// looks weird but works, dont change this
 	const status = {
 		width: line.align === 'justify' ? width : line.width,
-		height: fontAscent,
+		height: height,
 		x: line.align === 'justify' ? xPosition : xPosition - line.width,
 		y: yPosition,
 		message,

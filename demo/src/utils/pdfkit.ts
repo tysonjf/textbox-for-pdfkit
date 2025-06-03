@@ -1,5 +1,5 @@
+import { StreamBuffer } from 'pdfkit-utils';
 import PDFDocument from 'pdfkit/js/pdfkit.standalone';
-import { StreamBuffer } from 'textbox-for-pdfkit';
 
 interface GeneratePdfArgs {
 	options?: PDFDocumentArgs;
