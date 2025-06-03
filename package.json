@@ -1,6 +1,6 @@
 {
 	"name": "pdfkit-utils",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"type": "module",
 	"description": "A package to easily create beautiful Textboxes with pdfKit",
 	"main": "./dist/pdfKitUtils.cjs.js",
